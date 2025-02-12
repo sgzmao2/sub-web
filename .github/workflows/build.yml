@@ -1,34 +1,25 @@
-name: Build
-
+name: Build and Push Multi-Arch Docker Image
 on:
   push:
-    branches: [ master, dev ]
-
+    branches:
+      - master
 jobs:
-
-  build:
-    name: Build
+  build-and-push:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - name: Check out repository
+      uses: actions/checkout@master
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
       with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Get dependencies and build
-      run: |
-        yarn install
-        yarn build
-
-    - name: Upload
-      uses: actions/upload-artifact@v4
+        username: ${{ secrets.gigasnow }}
+        password: ${{ secrets.dckr_pat_St8xXyqLHjK4wILTei5UwosNO8A }}
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v3
       with:
-        name: dist
-        path: dist/
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: gigasnow/subweb-zm:latest
