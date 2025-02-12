@@ -232,7 +232,7 @@ export default {
           Trojan: "trojan",
           Surge3: "surge&ver=3",
         },
-        backendOptions: [{ value: "http://127.0.0.1:25500/sub?" }],
+        backendOptions: [{ value: "https://gigasnow.synology.me:25503/sub?" }],
         remoteConfig: [
           {
             label: "universal",
@@ -252,6 +252,11 @@ export default {
           {
             label: "customized",
             options: [
+              {
+              label: "Z.Mao自建",
+                value:
+                  "https://gigasnow.synology.me:5003/data/ZMcustomized.ini"
+              },
               {
                 label: "Maying",
                 value:
